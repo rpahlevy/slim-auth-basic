@@ -3,7 +3,7 @@
 Testing slim auth basic + jwt concept. The main idea is:
 
 1. Login using basic auth via javascript
-2. Save jwt token in browser cookies (name: jwt_token)
+2. Save jwt token in browser cookies (name: `jwt_token`)
 3. Access all page using jwt token
 
 ## Install
@@ -18,7 +18,7 @@ git clone https://github.com/rpahlevy/slim-auth-basic.git
 cd slim-auth-basic && composer install
 ```
 
-3. Clone dotenv, change JWT_SECRET & JWT_EXP (expired time in hours, **not implemented yet**)
+3. Clone dotenv, change `JWT_SECRET` & `JWT_EXP` (expired time in hours, **not implemented yet**)
 ```shell
 cp .env.template .env && nano .env
 ```
@@ -41,7 +41,7 @@ There are 2 middlewares used in this project.
 
 #### 1. Basic Auth
 
-Applied only on `/api/login` URL, used for login/authorize. Default account is hard-coded:
+Applied only on `/api/login` URL, used for login / authorize. Default account is hard-coded:
 ```shell
 email: admin@abc.com
 paswd: admin99
