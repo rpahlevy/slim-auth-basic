@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Slim Auth Basic</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+</head>
+
+<body style="background-color: #f8f8ff">
+    <div id="loading" class="d-none justify-content-center align-items-center position-fixed bg-dark" style="width:100vw;height:100vh;z-index:9999;opacity:.3">
+        <div class="spinner-border text-light" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row justify-content-center align-items-center" style="height:100vh">
+            <div class="col-10 col-md-4">
+                <h1 class="text-center font-weight-light text-muted mb-4">Slim Auth Basic</h1>
+                <div class="card rounded-0">
+                    <div class="card-body">
+                        <form action="" autocomplete="off" novalidate="true" onsubmit="return login()">
+                            <div class="form-group">
+                                <label for="username">Email</label>
+                                <input type="email" class="form-control" id="email" name="email" autofocus="autofocus" required="required">
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input type="password" class="form-control" id="password" name="password" required="required">
+                            </div>
+                            <div class="text-right">
+                                <button type="submit" id="sendlogin" class="btn btn-primary font-weight-bold">Login</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2.2.1/src/js.cookie.min.js"></script>
+    <script>
+    const URL_LOGIN = 'http://localhost:8080/api/login'
+
+    function show_loading() {
+        let loading = document.getElementById('loading')
+        loading.classList.add('d-flex')
+        loading.classList.remove('d-none')
+    }
+
+    function hide_loading() {
+        let loading = document.getElementById('loading')
+        loading.classList.remove('d-flex')
+        loading.classList.add('d-none')
+    }
+
+    function login() {
+        show_loading()
+
+        let email = document.getElementById('email').value
+        let password = document.getElementById('password').value
+        fetch(URL_LOGIN, {
+                method: 'POST', // *GET, POST, PUT, DELETE, etc.
+                // mode: 'cors', // no-cors, *cors, same-origin
+                cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                // credentials: 'same-origin', // include, *same-origin, omit
+                headers: {
+                    'Authorization': 'Basic ' + btoa(email + ':' + password),
+                    'Content-Type': 'application/json',
+                    // 'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                redirect: 'follow', // manual, *follow, error
+                referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+                // body: JSON.stringify(data) // body data type must match "Content-Type" header
+            })
+            .then(data => data.json())
+            .then(json => {
+                if (json.success) {
+                    // save jwt cookies
+                    // redirect to homepage
+                    Cookies.set('jwt_token', json.token, { sameSite: 'strict' })
+                    window.location = '/'
+                    return
+                }
+                alert(json.message)
+                hide_loading()
+            })
+        // alert(email + '-' + password)
+        return false
+    }
+    </script>
+</body>
+
+</html>

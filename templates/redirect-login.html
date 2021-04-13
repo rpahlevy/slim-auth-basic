@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Slim Auth Basic</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+</head>
+
+<body style="background-color: #f8f8ff">
+    <div id="loading" class="d-flex justify-content-center align-items-center" style="height:100vh">
+        <h5 class="mb-0 mr-2">Redirecting</h5>
+        <div class="spinner-border spinner-border-sm" role="status">
+            <span class="sr-only">...</span>
+        </div>
+    </div>
+    <script>
+        setTimeout(function () {
+            window.location = '/login'
+        }, 1000)
+    </script>
+</body>
+
+</html>

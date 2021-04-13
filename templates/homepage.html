@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Slim Auth Basic</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+</head>
+
+<body style="background-color: #f8f8ff">
+    <div class="d-flex justify-content-center align-items-center" style="height:100vh">
+        <div class="text-center">
+            <h1 class="display-1 mb-4">Welcome</h1>
+            <button class="btn btn-danger" onclick="logout()">Logout</button>
+            <p class="small mt-2 text-secondary">*LOGOUT = Hapus cookie token lalu refresh halaman</p>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2.2.1/src/js.cookie.min.js"></script>
+    <script>
+        function logout() {
+            Cookies.remove('jwt_token')
+            window.location.reload()
+        }
+    </script>
+</body>
+
+</html>

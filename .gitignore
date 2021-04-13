@@ -1,0 +1,7 @@
+/vendor
+/commit_messages
+/.env
+*.exe
+*.mp4
+*.rar
+*.zip

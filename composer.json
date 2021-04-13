@@ -1,0 +1,19 @@
+{
+    "name": "rpahlevy/slim-auth-basic",
+    "description": "Slim Auth Basic & JWT",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Rio Pahlevy",
+            "email": "43176811+rpahlevy@users.noreply.github.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.6.0",
+        "slim/slim": "^3.1",
+        "vlucas/phpdotenv": "^2.4",
+        "tuupola/slim-basic-auth": "^2.2",
+        "tuupola/slim-jwt-auth": "^2.1"
+    }
+}
