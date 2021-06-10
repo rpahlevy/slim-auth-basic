@@ -22,30 +22,30 @@ $app->add(new \Slim\Middleware\JwtAuthentication([
     }
 ]));
 
-$app->add(new \Slim\Middleware\HttpBasicAuthentication([
-    "secure" => true,
-    "relaxed" => ["localhost"],
-    "path" => ["/api/login"],
-    "realm" => "Protected",
-    "users" => [
-        "admin@abc.com" => "admin99",
-    ],
-    // "authenticator" => new PdoAuthenticator([
-    //     "pdo" => $pdo,
-    //     "table" => "users",
-    //     "user" => "email",
-    //     "hash" => "password"
-    // ]),
-    "callback" => function (Request $request, Response $response, $arguments) {
-        // simpan user (email) untuk digunakan membuat JWT
-        $session = Session::getInstance();
-        $session->user = $arguments['user'];
-    },
-    "error" => function (Request $request, Response $response, $arguments) {
-        $data = [
-            "success" => false,
-            "message" => "Username / Password salah",
-        ];
-        return $response->withJson($data);
-    }
-]));
+// $app->add(new \Slim\Middleware\HttpBasicAuthentication([
+//     "secure" => true,
+//     "relaxed" => ["localhost"],
+//     "path" => ["/api/login"],
+//     "realm" => "Protected",
+//     "users" => [
+//         "admin@abc.com" => "admin99",
+//     ],
+//     // "authenticator" => new PdoAuthenticator([
+//     //     "pdo" => $pdo,
+//     //     "table" => "users",
+//     //     "user" => "email",
+//     //     "hash" => "password"
+//     // ]),
+//     "callback" => function (Request $request, Response $response, $arguments) {
+//         // simpan user (email) untuk digunakan membuat JWT
+//         $session = Session::getInstance();
+//         $session->user = $arguments['user'];
+//     },
+//     "error" => function (Request $request, Response $response, $arguments) {
+//         $data = [
+//             "success" => false,
+//             "message" => "Username / Password salah",
+//         ];
+//         return $response->withJson($data);
+//     }
+// ]));

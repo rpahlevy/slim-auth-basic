@@ -7,28 +7,28 @@ use Firebase\JWT\JWT;
 require_once 'Session.php';
 
 
-$app->get('/', function(Request $request, Response $response) {
-    $file = __DIR__ .'/../templates/homepage.html';
-    return $response->write(file_get_contents($file));
-});
-
-$app->get('/login', function(Request $request, Response $response) {
-    // cek apakah sudah login
-    if (isset($_COOKIE['jwt_token'])) {
-        $key = getenv('JWT_SECRET');
-        $token = $_COOKIE['jwt_token'];
-        try {
-            $decoded = JWT::decode($token, $key, ['HS256']);
-            // do something with $decoded
-            return $response->withRedirect('/');
-        } catch (Exception $e) {}
-    }
-    $file = __DIR__ .'/../templates/login.html';
-    return $response->write(file_get_contents($file));
-});
-
 $app->post('/api/login', function(Request $request, Response $response) {
     $session = Session::getInstance();
+
+    // get user & pass
+    $email = $request->getParam('email');
+    $password = $request->getParam('password');
+
+    $res_unauthorized = [
+        'status' => 'error',
+        'message' => 'Unauthorized',
+    ];
+
+    $users = [
+        'admin@abc.com' => '$2y$10$koHgqFVEMvBFge9Ud/v0hO22voKEpzq2V07rUsQOEir/TF9v5tc6y', // admin99
+    ];
+    if (!isset($users[$email])) {
+        return $response->withStatus(401)->withJson($res_unauthorized);
+    }
+
+    if (!password_verify($password, $users[$email])) {
+        return $response->withStatus(401)->withJson($res_unauthorized);
+    }
 
     // generate token
     $key = getenv('JWT_SECRET');
@@ -47,13 +47,29 @@ $app->post('/api/login', function(Request $request, Response $response) {
     $token = JWT::encode($payload, $key);
     // $decoded = JWT::decode($token, $key, ['HS256']);
 
-    // remove $session->user
-    unset($session->user);
-
     $data = [
-        'success' => true,
-        'message' => 'Berhasil login',
-        'token' => $token,
+        'status' => 'success',
+        'data' => $token,
     ];
     return $response->withJson($data);
+});
+
+$app->get('/api/me', function(Request $request, Response $response) {
+    $key = getenv('JWT_SECRET');
+    $token = $_COOKIE['jwt_token'];
+    try {
+        $decoded = JWT::decode($token, $key, ['HS256']);
+        // do something with $decoded
+        return $response->withJson([
+            'status' => 'success',
+            'data' => [
+                'email' => $decoded->sub
+            ]
+        ]);
+    } catch (Exception $e) {
+        return $response->withJson([
+            'status' => 'error',
+            'message' => 'Invalid token'
+        ]);
+    }
 });
